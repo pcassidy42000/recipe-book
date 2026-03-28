@@ -157,7 +157,7 @@
 
     /* ── Table ── */
     .table-wrap { flex: 1; overflow-x: auto; padding: 0 28px 40px; }
-    table { width: 100%; border-collapse: collapse; min-width: 780px; table-layout: fixed; }
+    table { width: 100%; border-collapse: collapse; min-width: 900px; table-layout: auto; }
     thead tr { background: var(--surface); border-bottom: 2px solid var(--border2); }
     thead th {
       font-family: 'Syne', sans-serif;
@@ -178,17 +178,17 @@
     thead th.no-sort { cursor: default; }
     thead th.no-sort:hover { color: var(--text-dim); }
 
-    .col-id      { width: 40px; }
-    .col-date    { width: 82px; }
-    .col-title   { width: 17%; min-width: 130px; }
-    .col-chef    { width: 86px; }
-    .col-cuisine { width: 124px; }
-    .col-diff    { width: 88px; }
-    .col-time    { width: 72px; }
-    .col-serv    { width: 66px; }
-    .col-desc    { width: auto; min-width: 120px; }
-    .col-open    { width: 48px; text-align: center !important; }
-    .col-act     { width: 40px; text-align: center !important; }
+    .col-id      { width: 40px;   min-width: 40px;  max-width: 40px; }
+    .col-date    { width: 88px;   min-width: 88px;  max-width: 88px; }
+    .col-title   { width: 180px;  min-width: 140px; }
+    .col-chef    { width: 90px;   min-width: 80px;  max-width: 110px; }
+    .col-cuisine { width: 130px;  min-width: 100px; max-width: 160px; }
+    .col-diff    { width: 90px;   min-width: 80px;  max-width: 90px; }
+    .col-time    { width: 72px;   min-width: 65px;  max-width: 80px; }
+    .col-serv    { width: 62px;   min-width: 56px;  max-width: 70px; }
+    .col-desc    { min-width: 160px; }
+    .col-open    { width: 48px;   min-width: 48px;  max-width: 48px; text-align: center !important; }
+    .col-act     { width: 40px;   min-width: 40px;  max-width: 40px; text-align: center !important; }
 
     tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; cursor: pointer; }
     tbody tr:hover { background: var(--surface2); }
