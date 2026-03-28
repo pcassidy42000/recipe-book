@@ -157,7 +157,7 @@
 
     /* ── Table ── */
     .table-wrap { flex: 1; overflow-x: auto; padding: 0 28px 40px; }
-    table { width: 100%; border-collapse: collapse; min-width: 980px; }
+    table { width: 100%; border-collapse: collapse; min-width: 780px; table-layout: fixed; }
     thead tr { background: var(--surface); border-bottom: 2px solid var(--border2); }
     thead th {
       font-family: 'Syne', sans-serif;
@@ -178,17 +178,17 @@
     thead th.no-sort { cursor: default; }
     thead th.no-sort:hover { color: var(--text-dim); }
 
-    .col-id      { width: 54px; }
-    .col-date    { width: 100px; }
-    .col-title   { min-width: 180px; }
-    .col-chef    { width: 120px; }
+    .col-id      { width: 36px; }
+    .col-date    { width: 76px; }
+    .col-title   { width: 16%; min-width: 120px; }
+    .col-chef    { width: 80px; }
     .col-cuisine { width: 120px; }
-    .col-diff    { width: 90px; }
-    .col-time    { width: 80px; }
-    .col-serv    { width: 70px; }
-    .col-desc    { min-width: 160px; }
-    .col-open    { width: 60px; text-align: center !important; }
-    .col-act     { width: 50px; text-align: center !important; }
+    .col-diff    { width: 76px; }
+    .col-time    { width: 62px; }
+    .col-serv    { width: 52px; }
+    .col-desc    { width: auto; min-width: 100px; }
+    .col-open    { width: 42px; text-align: center !important; }
+    .col-act     { width: 36px; text-align: center !important; }
 
     tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; cursor: pointer; }
     tbody tr:hover { background: var(--surface2); }
@@ -205,10 +205,10 @@
     tbody td.col-id    { font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--accent); font-weight:500; }
     tbody td.col-title { font-weight: 500; }
     tbody td.col-chef  { font-size: 0.8rem; color: var(--text-dim); }
-    tbody td.col-date  { font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--text-dim); }
+    tbody td.col-date  { font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:var(--text-dim); white-space: nowrap; }
     tbody td.col-time  { font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--text-dim); }
     tbody td.col-serv  { font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--text-dim); text-align:center; }
-    tbody td.col-desc  { color:var(--text-dim); font-style:italic; font-size:0.8rem; }
+    tbody td.col-desc  { color:var(--text-dim); font-style:italic; font-size:0.8rem; white-space: normal; overflow: visible; text-overflow: unset; max-width: none; }
 
     .badge {
       display: inline-block;
