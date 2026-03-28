@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitality Kitchen | Healthy & Inspiring Recipes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9f7',
+                            100: '#d1f0e8',
+                            500: '#14b8a6', // Teal
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                        },
+                        accent: {
+                            light: '#fef3c7', // Soft yellow
+                            DEFAULT: '#f59e0b', // Amber
+                        },
+                        natural: {
+                            50: '#f9fafb',
+                            100: '#f3f4f6',
+                            900: '#111827',
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Montserrat', 'sans-serif'],
+                        body: ['Open Sans', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fcfdfc;
+            color: #374151;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(20, 184, 166, 0.1);
+        }
+        .recipe-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+        }
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #14b8a6;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body selection:bg-brand-100">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-brand-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <h1 class="font-display font-bold text-xl tracking-tight text-brand-800">Vitality Kitchen</h1>
+            </div>
+            <nav class="hidden md:flex space-x-8 text-sm font-semibold text-brand-700">
+                <span class="px-3 py-1 bg-brand-50 rounded-full text-brand-600">Healthy Options</span>
+                <span class="px-3 py-1">Low Starch</span>
+                <span class="px-3 py-1">High Protein</span>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-12 lg:py-20">
+        
+        <!-- Intro Section -->
+        <div class="max-w-3xl mb-16 animate-fade-in-up">
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
+                Nourish Your Body with <span class="text-brand-500 underline decoration-accent-light underline-offset-8">Real Flavor</span>.
+            </h2>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                Tailored healthy recipes featuring your favorite vibrant spices, fresh meats, and crisp vegetables. Focused on high-quality ingredients with minimal starches for a balanced, energetic lifestyle.
+            </p>
+        </div>
+
+        <!-- Recipe Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            
+            <!-- Recipe 1: Fish Stir Fry -->
+            <section class="lg:col-span-12 xl:col-span-12 group">
+                <div class="recipe-card glass-card rounded-3xl p-8 md:p-12 transition-all duration-300 animate-fade-in-up stagger-1">
+                    <div class="flex flex-col lg:flex-row gap-12">
+                        <div class="lg:w-2/5">
+                            <span class="inline-block px-4 py-1.5 rounded-full bg-brand-50 text-brand-600 text-xs font-bold uppercase tracking-widest mb-6">Asian Fusion</span>
+                            <h2 class="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">Spicy Ginger & Garlic Fish Stir Fry</h2>
+                            <p class="text-gray-600 mb-8 text-lg">A light, aromatic dish that packs a punch of heat. Perfect for a quick weeknight dinner that doesn't compromise on nutrition.</p>
+                            
+                            <div class="bg-brand-50/50 rounded-2xl p-6">
+                                <h3 class="font-display font-bold text-brand-800 mb-4 flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-brand-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                    </svg>
+                                    Ingredients
+                                </h3>
+                                <ul class="space-y-3 text-gray-700">
+                                    <li class="flex items-start"><span class="text-brand-500 mr-2">•</span> 1 lb white fish fillets (cod or tilapia)</li>
+                                    <li class="flex items-start"><span class="text-brand-500 mr-2">•</span> 2 tbsp low sodium soy sauce</li>
+                                    <li class="flex items-start"><span class="text-brand-500 mr-2">•</span> 1 tbsp fresh ginger, minced</li>
+                                    <li class="flex items-start"><span class="text-brand-500 mr-2">•</span> 3 cloves garlic, minced</li>
+                                    <li class="flex items-start"><span class="text-brand-500 mr-2">•</span> 1 red chili or 1/2 tsp flakes</li>
+                                    <li class="flex items-start"><span class="text-brand-500 mr-2">•</span> 2 cups broccoli florets</li>
+                                    <li class="flex items-start"><span class="text-brand-500 mr-2">•</span> 1 red bell pepper, sliced</li>
+                                    <li class="flex items-start"><span class="text-brand-500 mr-2">•</span> 1 tbsp sesame oil & 1/4 cup water</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="lg:w-3/5">
+                            <h3 class="font-display font-bold text-gray-900 mb-6 flex items-center text-xl">
+                                <span class="w-8 h-8 rounded-full bg-accent-light text-accent flex items-center justify-center mr-3 text-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </span>
+                                Preparation Steps
+                            </h3>
+                            <div class="space-y-6">
+                                <ol class="space-y-6">
+                                    <li class="flex gap-4">
+                                        <span class="font-display font-bold text-brand-300 text-3xl">01</span>
+                                        <p class="text-gray-700 pt-1">In a small bowl, whisk together the soy sauce, minced ginger, and minced garlic.</p>
+                                    </li>
+                                    <li class="flex gap-4">
+                                        <span class="font-display font-bold text-brand-300 text-3xl">02</span>
+                                        <p class="text-gray-700 pt-1">Heat sesame oil in a large skillet or wok over medium-high heat. Sear fish pieces for 3-4 minutes until opaque; set aside.</p>
+                                    </li>
+                                    <li class="flex gap-4">
+                                        <span class="font-display font-bold text-brand-300 text-3xl">03</span>
+                                        <p class="text-gray-700 pt-1">Toss broccoli, bell pepper, and chili into the pan. Stir fry for 5 minutes until tender-crisp.</p>
+                                    </li>
+                                    <li class="flex gap-4">
+                                        <span class="font-display font-bold text-brand-300 text-3xl">04</span>
+                                        <p class="text-gray-700 pt-1">Return fish to pan, pour in the sauce mixture and water. Toss gently for 2 minutes until glazed and thickened.</p>
+                                    </li>
+                                </ol>
+                                <div class="mt-8 p-4 border-l-4 border-accent bg-accent-light/20 rounded-r-xl">
+                                    <p class="text-sm font-semibold text-accent-700 italic">Chef's Note: Serve as is for a high-protein, low-starch powerhouse meal.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recipe 2: Roasted Chicken -->
+            <section class="lg:col-span-6 group">
+                <div class="recipe-card glass-card rounded-3xl p-8 h-full flex flex-col transition-all duration-300 animate-fade-in-up stagger-2">
+                    <span class="inline-block px-4 py-1.5 rounded-full bg-brand-50 text-brand-600 text-xs font-bold uppercase tracking-widest mb-6 w-fit">Mediterranean</span>
+                    <h2 class="font-display text-3xl font-bold text-gray-900 mb-4 leading-tight">Chili & Garlic Roasted Chicken</h2>
+                    <p class="text-gray-600 mb-8">A rustic, one-pan wonder that balances lean protein with wholesome vegetables and savory herbs.</p>
+                    
+                    <div class="mt-auto space-y-8">
+                        <div>
+                            <h3 class="font-display font-bold text-brand-800 mb-3 text-lg underline decoration-accent-light underline-offset-4">Ingredients</h3>
+                            <ul class="grid grid-cols-2 gap-2 text-sm text-gray-700">
+                                <li>• 2 chicken breasts</li>
+                                <li>• 2 small potatoes</li>
+                                <li>• 2 cups zucchini</li>
+                                <li>• 1 cup cherry tomatoes</li>
+                                <li>• 4 cloves garlic</li>
+                                <li>• 1 tsp chili flakes</li>
+                                <li>• 2 tbsp olive oil</li>
+                                <li>• Dried oregano</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-display font-bold text-gray-900 mb-4 text-lg">Instructions</h3>
+                            <ol class="space-y-4 text-sm text-gray-700">
+                                <li class="flex gap-3"><span class="w-5 h-5 bg-brand-100 text-brand-700 rounded-full flex-shrink-0 flex items-center justify-center font-bold">1</span> Preheat oven to 400°F.</li>
+                                <li class="flex gap-3"><span class="w-5 h-5 bg-brand-100 text-brand-700 rounded-full flex-shrink-0 flex items-center justify-center font-bold">2</span> Combine chicken, potatoes, zucchini, and tomatoes in a roasting pan.</li>
+                                <li class="flex gap-3"><span class="w-5 h-5 bg-brand-100 text-brand-700 rounded-full flex-shrink-0 flex items-center justify-center font-bold">3</span> Add garlic, chili flakes, oregano, salt, and pepper. Drizzle with oil and toss.</li>
+                                <li class="flex gap-3"><span class="w-5 h-5 bg-brand-100 text-brand-700 rounded-full flex-shrink-0 flex items-center justify-center font-bold">4</span> Roast for 25-30 mins, turning halfway, until potatoes are tender.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recipe 3: Beef Curry -->
+            <section class="lg:col-span-6 group">
+                <div class="recipe-card glass-card rounded-3xl p-8 h-full flex flex-col transition-all duration-300 animate-fade-in-up stagger-3">
+                    <span class="inline-block px-4 py-1.5 rounded-full bg-brand-50 text-brand-600 text-xs font-bold uppercase tracking-widest mb-6 w-fit">Thai Inspired</span>
+                    <h2 class="font-display text-3xl font-bold text-gray-900 mb-4 leading-tight">Spicy Ginger & Garlic Beef Curry</h2>
+                    <p class="text-gray-600 mb-8">Comfort in a bowl. Creamy light coconut milk meets bold red curry and tender lean beef.</p>
+                    
+                    <div class="mt-auto space-y-8">
+                        <div>
+                            <h3 class="font-display font-bold text-brand-800 mb-3 text-lg underline decoration-accent-light underline-offset-4">Ingredients</h3>
+                            <ul class="grid grid-cols-2 gap-2 text-sm text-gray-700">
+                                <li>• 1 lb lean beef</li>
+                                <li>• 1 tbsp coconut oil</li>
+                                <li>• 1 yellow onion</li>
+                                <li>• 2 tbsp grated ginger</li>
+                                <li>• 4 cloves garlic</li>
+                                <li>• 2 tbsp red curry paste</li>
+                                <li>• 14oz light coconut milk</li>
+                                <li>• Spinach & Carrots</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-display font-bold text-gray-900 mb-4 text-lg">Instructions</h3>
+                            <ol class="space-y-4 text-sm text-gray-700">
+                                <li class="flex gap-3"><span class="w-5 h-5 bg-brand-100 text-brand-700 rounded-full flex-shrink-0 flex items-center justify-center font-bold">1</span> Sauté onion in coconut oil, then add ginger, garlic, and green chili.</li>
+                                <li class="flex gap-3"><span class="w-5 h-5 bg-brand-100 text-brand-700 rounded-full flex-shrink-0 flex items-center justify-center font-bold">2</span> Brown beef slices, then stir in curry paste for 1 minute.</li>
+                                <li class="flex gap-3"><span class="w-5 h-5 bg-brand-100 text-brand-700 rounded-full flex-shrink-0 flex items-center justify-center font-bold">3</span> Add coconut milk and carrots. Simmer for 15 minutes until tender.</li>
+                                <li class="flex gap-3"><span class="w-5 h-5 bg-brand-100 text-brand-700 rounded-full flex-shrink-0 flex items-center justify-center font-bold">4</span> Stir in spinach at the end until wilted. Serve with minimal rice.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Preferences Summary -->
+        <div class="mt-20 p-8 rounded-3xl border border-dashed border-brand-200 bg-brand-50/30 animate-fade-in-up stagger-3">
+            <h3 class="font-display font-bold text-brand-800 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+                Your Dietary Focus
+            </h3>
+            <div class="flex flex-wrap gap-3">
+                <span class="px-4 py-2 bg-white rounded-xl shadow-sm border border-brand-50 text-sm text-gray-700 font-medium">✨ Spice Lovers</span>
+                <span class="px-4 py-2 bg-white rounded-xl shadow-sm border border-brand-50 text-sm text-gray-700 font-medium">🐟 Fresh Seafood</span>
+                <span class="px-4 py-2 bg-white rounded-xl shadow-sm border border-brand-50 text-sm text-gray-700 font-medium">🥩 Lean Meats</span>
+                <span class="px-4 py-2 bg-white rounded-xl shadow-sm border border-brand-50 text-sm text-gray-700 font-medium">🚫 Minimal Starch</span>
+                <span class="px-4 py-2 bg-white rounded-xl shadow-sm border border-brand-50 text-sm text-gray-700 font-medium">🌿 Ginger & Garlic</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Interactive Scroll Effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.recipe-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bavarian Sandwich Recipe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6B705C', // Muted Sage Green
+                        accent: '#B7B7A4', // Soft Earthy Green
+                        surface: '#FBFBF2', // Off-white
+                        warm: '#DDBEA9', // Soft Terracotta/Beige
+                        charcoal: '#333533', // Deep Gray
+                    },
+                    fontFamily: {
+                        display: ['Lora', 'serif'],
+                        body: ['Outfit', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FBFBF2;
+            color: #333533;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        .list-bullet::before {
+            content: "•";
+            color: #6B705C;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.5em;
+            margin-left: -1.5em;
+        }
+
+        .instruction-step {
+            counter-increment: step-counter;
+        }
+
+        .instruction-step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: -3rem;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: #6B705C;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        details summary {
+            list-style: none;
+        }
+    </style>
+</head>
+<body class="font-body selection:bg-warm selection:text-charcoal px-4 py-8 md:py-16">
+
+    <div class="max-w-5xl mx-auto">
+        
+        <!-- Header / Branding -->
+        <nav class="mb-12 flex items-center justify-between opacity-80">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-surface">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                </div>
+                <span class="text-xs font-semibold tracking-widest uppercase text-primary">Artisan Kitchen</span>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Recipe Title -->
+            <header class="mb-12 text-center md:text-left">
+                <h1 class="font-display text-4xl md:text-6xl font-semibold text-charcoal leading-tight tracking-tight mb-6">
+                    Bavarian Sandwich with a Tall Glass of Milk
+                </h1>
+                
+                <!-- Overview Cards -->
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                    <div class="glass-card px-6 py-3 rounded-2xl flex flex-col">
+                        <span class="text-[10px] uppercase tracking-wider text-primary font-bold">Prep Time</span>
+                        <span class="text-sm font-medium">Not specified</span>
+                    </div>
+                    <div class="glass-card px-6 py-3 rounded-2xl flex flex-col">
+                        <span class="text-[10px] uppercase tracking-wider text-primary font-bold">Difficulty</span>
+                        <span class="text-sm font-medium">Easy</span>
+                    </div>
+                    <div class="glass-card px-6 py-3 rounded-2xl flex flex-col">
+                        <span class="text-[10px] uppercase tracking-wider text-primary font-bold">Serving</span>
+                        <span class="text-sm font-medium">1 Person</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-20">
+                
+                <!-- Ingredients Section -->
+                <aside class="md:col-span-4 lg:col-span-4">
+                    <div class="sticky top-8">
+                        <h2 class="font-display text-2xl font-semibold mb-6 flex items-center gap-3">
+                            Ingredients
+                            <span class="h-px bg-warm flex-grow"></span>
+                        </h2>
+                        <ul class="space-y-4 pl-6">
+                            <li class="list-bullet text-lg leading-relaxed">Bread</li>
+                            <li class="list-bullet text-lg leading-relaxed italic text-primary/80">Butter (liberally applied)</li>
+                            <li class="list-bullet text-lg leading-relaxed">Ham</li>
+                            <li class="list-bullet text-lg leading-relaxed">Apple Slices</li>
+                            <li class="list-bullet text-lg leading-relaxed">Cheddar Cheese</li>
+                            <li class="list-bullet text-lg leading-relaxed">Mango Chutney <span class="text-sm px-2 py-0.5 rounded bg-warm/30 text-charcoal/80">(with added chilli)</span></li>
+                        </ul>
+
+                        <!-- Notes/Tips -->
+                        <div class="mt-12 p-6 rounded-3xl bg-warm/20 border border-warm/30">
+                            <h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-3">Chef's Note</h3>
+                            <p class="text-sm italic leading-relaxed text-charcoal/80">
+                                Serve with a tall glass of cold milk as specified to balance the sweet and spicy mango chutney.
+                            </p>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Instructions Section -->
+                <section class="md:col-span-8 lg:col-span-8">
+                    <h2 class="font-display text-2xl font-semibold mb-8 flex items-center gap-3">
+                        Method
+                        <span class="h-px bg-warm flex-grow"></span>
+                    </h2>
+                    <ol class="space-y-10 [counter-reset:step-counter]">
+                        <li class="instruction-step relative pl-4 md:pl-0">
+                            <h4 class="font-semibold text-lg mb-2">The Foundation</h4>
+                            <p class="text-lg leading-relaxed text-charcoal/80">
+                                Liberally butter the bread slices. Ensure the butter reaches all the way to the edges for maximum richness.
+                            </p>
+                        </li>
+                        <li class="instruction-step relative pl-4 md:pl-0">
+                            <h4 class="font-semibold text-lg mb-2">Assembly</h4>
+                            <p class="text-lg leading-relaxed text-charcoal/80">
+                                Assemble the sandwich by layering the ham, fresh apple slices, and sharp cheddar cheese. The combination of salty meat and crisp fruit is essential.
+                            </p>
+                        </li>
+                        <li class="instruction-step relative pl-4 md:pl-0">
+                            <h4 class="font-semibold text-lg mb-2">The Secret Ingredient</h4>
+                            <p class="text-lg leading-relaxed text-charcoal/80">
+                                Spread the mango chutney with added chilli generously onto the sandwich. This provides a delightful heat that cuts through the rich cheddar.
+                            </p>
+                        </li>
+                        <li class="instruction-step relative pl-4 md:pl-0">
+                            <h4 class="font-semibold text-lg mb-2">Service</h4>
+                            <p class="text-lg leading-relaxed text-charcoal/80">
+                                Close the sandwich and serve immediately. Don't forget that tall glass of milk!
+                            </p>
+                        </li>
+                    </ol>
+                </section>
+            </div>
+
+            <!-- Context / Source Footer Section -->
+            <div class="mt-24 pt-12 border-t border-warm/40">
+                <details class="group">
+                    <summary class="flex items-center justify-between cursor-pointer py-4 text-primary font-medium hover:text-charcoal transition-colors">
+                        <span class="text-sm uppercase tracking-widest">Original Recipe Source</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </summary>
+                    <div class="mt-4 p-8 glass-card rounded-3xl">
+                        <p class="whitespace-pre-line text-sm text-charcoal/70 leading-relaxed font-mono">
+                            Bavarian Sandwich with a Tall Glass Of Milk
+                            Ham, Apple Slices, Cheddar Cheese, Mango Chutney with added chilli. Bread.
+                            Liberally buttered.
+                        </p>
+                    </div>
+                </details>
+                
+                <div class="mt-8 text-center md:text-left">
+                    <a href="https://example.com" target="_blank" class="inline-flex items-center gap-2 text-xs font-semibold text-primary/60 hover:text-primary transition-colors underline-offset-4 underline">
+                        View Original Context
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Interactive script for subtle entry animations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-4');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.instruction-step, aside, header').forEach(el => {
+                el.classList.add('transition-all', 'duration-700', 'ease-out', 'opacity-0', 'translate-y-4');
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

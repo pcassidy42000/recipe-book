@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recipe Book</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #0f1117;
+      --surface:   #181c27;
+      --surface2:  #1e2433;
+      --border:    #2a3040;
+      --border2:   #3a4258;
+      --accent:    #e8a045;
+      --accent2:   #f0c070;
+      --text:      #d4cfc5;
+      --text-dim:  #7a8099;
+      --text-dim2: #545c72;
+      --green:     #4caf88;
+      --red:       #e06060;
+      --amber:     #d4974a;
+      --blue:      #5b9bd5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .logo span { color: var(--text-dim); font-weight: 400; }
+
+    .header-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+    .search-wrap svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.4;
+    }
+    input.search {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 0.82rem;
+      padding: 7px 12px 7px 32px;
+      width: 220px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input.search:focus { border-color: var(--accent); }
+    input.search::placeholder { color: var(--text-dim2); }
+
+    .filter-select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 0.82rem;
+      padding: 7px 10px;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .filter-select:focus { border-color: var(--accent); }
+
+    .btn {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #1a1208;
+    }
+    .btn-primary:hover { background: var(--accent2); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid var(--border2);
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--text-dim); }
+    .btn-danger {
+      background: transparent;
+      color: var(--red);
+      border: 1px solid var(--red);
+    }
+    .btn-danger:hover { background: var(--red); color: #fff; }
+    .btn-open {
+      background: var(--green);
+      color: #0a1f15;
+    }
+    .btn-open:hover { filter: brightness(1.1); }
+    .btn-sm { padding: 5px 12px; font-size: 0.72rem; }
+
+    /* ── Count bar ── */
+    .count-bar {
+      padding: 10px 28px;
+      font-size: 0.76rem;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .count-bar strong { color: var(--accent); font-family: 'IBM Plex Mono', monospace; }
+
+    /* ── Table ── */
+    .table-wrap {
+      flex: 1;
+      overflow-x: auto;
+      padding: 0 28px 40px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 860px;
+      margin-top: 0;
+    }
+
+    thead tr {
+      background: var(--surface);
+      border-bottom: 2px solid var(--border2);
+    }
+    thead th {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding: 12px 14px;
+      text-align: left;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    thead th:hover { color: var(--accent); }
+    thead th.sort-asc::after  { content: " ↑"; color: var(--accent); }
+    thead th.sort-desc::after { content: " ↓"; color: var(--accent); }
+    thead th.no-sort { cursor: default; }
+    thead th.no-sort:hover { color: var(--text-dim); }
+
+    .col-id      { width: 54px; }
+    .col-date    { width: 100px; }
+    .col-title   { min-width: 200px; }
+    .col-cuisine { width: 130px; }
+    .col-diff    { width: 90px; }
+    .col-time    { width: 80px; }
+    .col-serv    { width: 80px; }
+    .col-desc    { min-width: 180px; }
+    .col-open    { width: 70px; text-align: center !important; }
+    .col-act     { width: 50px; text-align: center !important; }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.12s;
+      cursor: pointer;
+    }
+    tbody tr:hover { background: var(--surface2); }
+
+    tbody td {
+      padding: 11px 14px;
+      font-size: 0.85rem;
+      vertical-align: middle;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+    }
+    tbody td.col-id {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+    tbody td.col-title { font-weight: 500; }
+    tbody td.col-date  { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--text-dim); }
+    tbody td.col-time  { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--text-dim); }
+    tbody td.col-serv  { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--text-dim); text-align: center; }
+    tbody td.col-desc  { color: var(--text-dim); font-style: italic; font-size: 0.8rem; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .diff-easy   { background: rgba(76,175,136,0.18); color: var(--green); }
+    .diff-medium { background: rgba(212,151,74,0.18); color: var(--amber); }
+    .diff-hard   { background: rgba(224,96,96,0.18);  color: var(--red); }
+
+    .open-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+      opacity: 0.75;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .open-icon:hover { opacity: 1; transform: scale(1.15); }
+
+    /* ── Overlay / Modal ── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.72);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(3px);
+      animation: fadeIn 0.15s ease;
+    }
+    .overlay.active { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      animation: slideUp 0.2s ease;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    }
+    @keyframes slideUp { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .modal-detail { max-width: 800px; }
+
+    .modal-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .modal-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      flex: 1;
+      line-height: 1.35;
+    }
+    .modal-id {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      background: rgba(232,160,69,0.1);
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.3rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: color 0.15s;
+      margin-left: 8px;
+    }
+    .modal-close:hover { color: var(--text); }
+
+    .modal-body {
+      padding: 20px 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    /* Form */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .form-row.full  { grid-template-columns: 1fr; }
+    .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .field label {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .field input, .field textarea, .field select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 0.88rem;
+      padding: 9px 12px;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      resize: none;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); }
+    .field textarea {
+      min-height: 80px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+    .field .hint {
+      font-size: 0.72rem;
+      color: var(--text-dim2);
+    }
+    .field select option { background: var(--surface2); }
+
+    .modal-footer {
+      padding: 14px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .modal-footer .left { margin-right: auto; }
+
+    /* Detail view */
+    .detail-meta {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .meta-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .meta-label {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim2);
+      margin-bottom: 5px;
+    }
+    .meta-value {
+      font-size: 0.88rem;
+      color: var(--text);
+      word-break: break-word;
+    }
+    .meta-value a {
+      color: var(--blue);
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .meta-value a:hover { text-decoration: underline; }
+
+    .desc-section { margin-top: 4px; }
+    .desc-label {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .desc-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .desc-content {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-dim2); }
+
+    /* Empty state */
+    .empty {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-dim);
+    }
+    .empty svg { opacity: 0.2; margin-bottom: 16px; }
+    .empty h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .empty p { font-size: 0.85rem; }
+
+    /* Row delete */
+    .row-delete {
+      background: none;
+      border: none;
+      color: var(--text-dim2);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color 0.15s;
+      display: inline-flex;
+    }
+    .row-delete:hover { color: var(--red); }
+
+    /* Stats strip */
+    .stats-strip {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      padding: 0 28px;
+      overflow-x: auto;
+    }
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 18px 8px 0;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      white-space: nowrap;
+    }
+    .stat-pill + .stat-pill { border-left: 1px solid var(--border); padding-left: 18px; }
+    .stat-pill strong {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+    }
+    .stat-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">RECIPE BOOK <span>/ My Collection</span></div>
+  <div class="header-right">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search" type="text" id="searchInput" placeholder="Search recipes…">
+    </div>
+    <select class="filter-select" id="cuisineFilter">
+      <option value="">All Cuisines</option>
+    </select>
+    <select class="filter-select" id="diffFilter">
+      <option value="">All Levels</option>
+      <option value="Easy">Easy</option>
+      <option value="Medium">Medium</option>
+      <option value="Hard">Hard</option>
+    </select>
+    <button class="btn btn-ghost" onclick="exportData()">↓ Export</button>
+    <button class="btn btn-ghost" onclick="document.getElementById('importFile').click()">↑ Import</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+    <button class="btn btn-primary" onclick="openAdd()">+ Add Recipe</button>
+  </div>
+</header>
+
+<!-- Stats strip -->
+<div class="stats-strip" id="statsStrip">
+  <div class="stat-pill"><strong id="st-total">0</strong> recipes</div>
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--green)"></span><strong id="st-easy">0</strong> Easy</div>
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--amber)"></span><strong id="st-med">0</strong> Medium</div>
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--red)"></span><strong id="st-hard">0</strong> Hard</div>
+  <div class="stat-pill">avg <strong id="st-time">—</strong> min</div>
+  <div class="stat-pill">avg <strong id="st-serv">—</strong> servings</div>
+</div>
+
+<!-- Count bar -->
+<div class="count-bar">
+  <span id="countBar">Loading…</span>
+</div>
+
+<!-- Table -->
+<div class="table-wrap">
+  <table id="mainTable">
+    <thead>
+      <tr>
+        <th class="col-id"      onclick="sortBy('id')">#</th>
+        <th class="col-date"    onclick="sortBy('date')">Date Added</th>
+        <th class="col-title"   onclick="sortBy('title')">Recipe</th>
+        <th class="col-cuisine" onclick="sortBy('cuisine')">Cuisine</th>
+        <th class="col-diff"    onclick="sortBy('difficulty')">Difficulty</th>
+        <th class="col-time"    onclick="sortBy('totalTime')">Time</th>
+        <th class="col-serv"    onclick="sortBy('servings')">Serves</th>
+        <th class="col-desc">Description</th>
+        <th class="col-open no-sort" style="text-align:center">Open</th>
+        <th class="col-act no-sort"></th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+  <div id="emptyState" class="empty" style="display:none">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+      <path d="M3 2h18v7H3z"/><path d="M3 9h18"/><path d="M3 9c0 8.5 4 13 9 13s9-4.5 9-13"/>
+      <path d="M9 2v7"/><path d="M15 2v7"/>
+    </svg>
+    <h3>No recipes yet</h3>
+    <p>Click <strong>+ Add Recipe</strong> to start building your collection.</p>
+  </div>
+</div>
+
+<!-- Add / Edit Modal -->
+<div class="overlay" id="editOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="editModalTitle">Add New Recipe</div>
+        <div style="font-size:0.75rem; color:var(--text-dim); margin-top:4px;">Double-click any row to view full details</div>
+      </div>
+      <button class="modal-close" onclick="closeEdit()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="field">
+          <label>Recipe #</label>
+          <input type="text" id="f_id" placeholder="e.g. 12">
+        </div>
+        <div class="field">
+          <label>Date Added</label>
+          <input type="date" id="f_date">
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="field">
+          <label>Recipe Name</label>
+          <input type="text" id="f_title" placeholder="e.g. Spaghetti alla Carbonara">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Cuisine</label>
+          <input type="text" id="f_cuisine" placeholder="e.g. Italian, Mexican, Asian…">
+        </div>
+        <div class="field">
+          <label>Difficulty</label>
+          <select id="f_difficulty">
+            <option value="">— Select —</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row three">
+        <div class="field">
+          <label>Prep Time (min)</label>
+          <input type="number" id="f_prep" placeholder="15" min="0">
+        </div>
+        <div class="field">
+          <label>Cook Time (min)</label>
+          <input type="number" id="f_cook" placeholder="30" min="0">
+        </div>
+        <div class="field">
+          <label>Servings</label>
+          <input type="number" id="f_servings" placeholder="4" min="1">
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="field">
+          <label>Recipe File Path / URL</label>
+          <input type="text" id="f_link" placeholder="recipes/carbonara.html  or  https://…">
+          <div class="hint">Relative path to the .html file or a full URL. This is what "Open" will navigate to.</div>
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="field">
+          <label>Short Description</label>
+          <textarea id="f_desc" placeholder="A quick description of the dish, key ingredients, or what makes it special…"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="left">
+        <button class="btn btn-danger btn-sm" id="deleteBtn" onclick="deleteRecord()" style="display:none">Delete Recipe</button>
+      </div>
+      <button class="btn btn-ghost" onclick="closeEdit()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveRecord()">Save Recipe</button>
+    </div>
+  </div>
+</div>
+
+<!-- Detail View Modal -->
+<div class="overlay" id="detailOverlay">
+  <div class="modal modal-detail">
+    <div class="modal-header">
+      <div style="flex:1">
+        <div class="modal-id" id="d_id"></div>
+        <div class="modal-title" id="d_title" style="margin-top:8px;font-size:1.15rem;"></div>
+      </div>
+      <button class="modal-close" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-meta" style="grid-template-columns: repeat(5,1fr)">
+        <div class="meta-item">
+          <div class="meta-label">Date</div>
+          <div class="meta-value" id="d_date"></div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Cuisine</div>
+          <div class="meta-value" id="d_cuisine"></div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Difficulty</div>
+          <div class="meta-value" id="d_difficulty"></div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Total Time</div>
+          <div class="meta-value" id="d_time"></div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Servings</div>
+          <div class="meta-value" id="d_servings"></div>
+        </div>
+      </div>
+      <div class="desc-section">
+        <div class="desc-label">Description</div>
+        <div class="desc-content" id="d_desc"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="editFromDetail()" style="margin-right:auto">Edit</button>
+      <button class="btn btn-ghost" onclick="closeDetail()">Close</button>
+      <button class="btn btn-open" id="d_openBtn" onclick="openRecipeFile()">Open Recipe →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── CHANGE THIS to give each copy its own separate data store ─────────────
+  const DB_NAME = 'recipe_book_default';
+  // ─────────────────────────────────────────────────────────────────────────
+
+  let records    = JSON.parse(localStorage.getItem(DB_NAME) || '[]');
+  let editIndex  = null;
+  let detailIndex = null;
+  let sortKey    = 'id';
+  let sortDir    = 1;
+
+  function save() {
+    localStorage.setItem(DB_NAME, JSON.stringify(records));
+  }
+
+  // ── Cuisine colour palette ────────────────────────────────────────────────
+  const colorPalette = [
+    ['#1a3a2a','#4caf88'], ['#1a2a3a','#5b9bd5'],
+    ['#2a2a1a','#c9b44a'], ['#2a1a3a','#9b7fd4'],
+    ['#1a2e2e','#4ab8b8'], ['#3a2a1a','#d4874a'],
+    ['#1e1a3a','#7090d0'], ['#2e1a2a','#c06898'],
+  ];
+  const cuisineColorMap = {};
+  let colorIdx = 0;
+  function cuisineColor(c) {
+    const key = (c||'').toLowerCase();
+    if (!cuisineColorMap[key]) {
+      cuisineColorMap[key] = colorPalette[colorIdx % colorPalette.length];
+      colorIdx++;
+    }
+    return cuisineColorMap[key];
+  }
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  function esc(s) {
+    return String(s||'')
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function formatTime(mins) {
+    const m = parseInt(mins) || 0;
+    if (!m) return '—';
+    if (m < 60) return m + ' min';
+    const h = Math.floor(m/60), rm = m % 60;
+    return rm ? `${h}h ${rm}m` : `${h}h`;
+  }
+
+  function totalTime(r) {
+    return (parseInt(r.prep)||0) + (parseInt(r.cook)||0);
+  }
+
+  function diffBadge(d) {
+    if (!d) return `<span style="color:var(--text-dim2)">—</span>`;
+    const cls = d === 'Easy' ? 'diff-easy' : d === 'Medium' ? 'diff-medium' : 'diff-hard';
+    return `<span class="badge ${cls}">${esc(d)}</span>`;
+  }
+
+  function descPreview(t) {
+    if (!t) return '';
+    const words = t.trim().split(/\s+/);
+    return words.slice(0,10).join(' ') + (words.length > 10 ? '…' : '');
+  }
+
+  // ── Stats ──────────────────────────────────────────────────────────────────
+  function updateStats() {
+    const total = records.length;
+    const easy  = records.filter(r => r.difficulty === 'Easy').length;
+    const med   = records.filter(r => r.difficulty === 'Medium').length;
+    const hard  = records.filter(r => r.difficulty === 'Hard').length;
+    const times = records.map(r => totalTime(r)).filter(t => t > 0);
+    const avgTime = times.length ? Math.round(times.reduce((a,b)=>a+b,0)/times.length) : null;
+    const servs = records.map(r => parseInt(r.servings)||0).filter(s=>s>0);
+    const avgServ = servs.length ? (servs.reduce((a,b)=>a+b,0)/servs.length).toFixed(1) : null;
+    document.getElementById('st-total').textContent = total;
+    document.getElementById('st-easy').textContent  = easy;
+    document.getElementById('st-med').textContent   = med;
+    document.getElementById('st-hard').textContent  = hard;
+    document.getElementById('st-time').textContent  = avgTime ?? '—';
+    document.getElementById('st-serv').textContent  = avgServ ?? '—';
+  }
+
+  // ── Cuisine filter ─────────────────────────────────────────────────────────
+  function updateCuisineFilter() {
+    const sel = document.getElementById('cuisineFilter');
+    const current = sel.value;
+    const cuisines = [...new Set(records.map(r => r.cuisine).filter(Boolean))].sort();
+    sel.innerHTML = '<option value="">All Cuisines</option>' +
+      cuisines.map(c => `<option value="${esc(c)}" ${c===current?'selected':''}>${esc(c)}</option>`).join('');
+  }
+
+  function updateSortHeaders() {
+    document.querySelectorAll('thead th').forEach(th => th.classList.remove('sort-asc','sort-desc'));
+    const keys = ['id','date','title','cuisine','difficulty','totalTime','servings',null,null,null];
+    const idx = keys.indexOf(sortKey);
+    if (idx >= 0) {
+      const ths = document.querySelectorAll('thead th');
+      ths[idx].classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
+    }
+  }
+
+  function sortBy(key) {
+    if (sortKey === key) sortDir *= -1;
+    else { sortKey = key; sortDir = 1; }
+    render();
+  }
+
+  // ── Render ─────────────────────────────────────────────────────────────────
+  function render() {
+    const q       = document.getElementById('searchInput').value.toLowerCase();
+    const cuisineF = document.getElementById('cuisineFilter').value.toLowerCase();
+    const diffF   = document.getElementById('diffFilter').value.toLowerCase();
+
+    let filtered = records.filter(r => {
+      const matchCuisine = !cuisineF || (r.cuisine||'').toLowerCase() === cuisineF;
+      const matchDiff    = !diffF    || (r.difficulty||'').toLowerCase() === diffF;
+      const matchQ       = !q || [r.id, r.title, r.cuisine, r.difficulty, r.desc]
+        .some(f => String(f||'').toLowerCase().includes(q));
+      return matchCuisine && matchDiff && matchQ;
+    });
+
+    filtered.sort((a,b) => {
+      let va, vb;
+      if (sortKey === 'totalTime') {
+        va = totalTime(a); vb = totalTime(b);
+      } else if (sortKey === 'servings') {
+        va = parseInt(a.servings)||0; vb = parseInt(b.servings)||0;
+      } else if (sortKey === 'id') {
+        va = parseFloat(a.id)||0; vb = parseFloat(b.id)||0;
+      } else {
+        va = a[sortKey]||''; vb = b[sortKey]||'';
+      }
+      if (va < vb) return -sortDir;
+      if (va > vb) return  sortDir;
+      return 0;
+    });
+
+    const tbody = document.getElementById('tableBody');
+    const empty = document.getElementById('emptyState');
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '';
+      empty.style.display = 'block';
+    } else {
+      empty.style.display = 'none';
+      tbody.innerHTML = filtered.map(r => {
+        const realIdx = records.indexOf(r);
+        const [bgC, fgC] = cuisineColor(r.cuisine);
+        const cuisineBadge = r.cuisine
+          ? `<span class="badge" style="background:${bgC};color:${fgC}">${esc(r.cuisine)}</span>`
+          : `<span style="color:var(--text-dim2)">—</span>`;
+        const tt = totalTime(r);
+        const openCell = r.link
+          ? `<a class="open-icon" href="${esc(r.link)}" target="_blank" rel="noopener"
+               onclick="event.stopPropagation()" title="Open ${esc(r.title)}">
+               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                 <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+               </svg>
+             </a>`
+          : `<span style="color:var(--text-dim2)">—</span>`;
+        return `<tr ondblclick="openDetail(${realIdx})">
+          <td class="col-id">${esc(r.id||'')}</td>
+          <td class="col-date">${esc(r.date||'')}</td>
+          <td class="col-title">${esc(r.title||'')}</td>
+          <td class="col-cuisine">${cuisineBadge}</td>
+          <td class="col-diff">${diffBadge(r.difficulty)}</td>
+          <td class="col-time">${tt ? formatTime(tt) : '—'}</td>
+          <td class="col-serv" style="text-align:center">${r.servings ? esc(r.servings) : '—'}</td>
+          <td class="col-desc">${esc(descPreview(r.desc))}</td>
+          <td class="col-open" style="text-align:center">${openCell}</td>
+          <td class="col-act" style="text-align:center">
+            <button class="row-delete" title="Delete" onclick="event.stopPropagation(); quickDelete(${realIdx})">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
+                <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+              </svg>
+            </button>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    const total = records.length;
+    const shown = filtered.length;
+    document.getElementById('countBar').innerHTML =
+      `<strong>${shown}</strong> recipe${shown!==1?'s':''} shown` +
+      (shown !== total ? ` &nbsp;·&nbsp; <strong>${total}</strong> total` : '');
+
+    updateStats();
+    updateCuisineFilter();
+    updateSortHeaders();
+  }
+
+  // ── Export / Import ────────────────────────────────────────────────────────
+  function exportData() {
+    const json = JSON.stringify(records, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = `recipe-book-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const imported = JSON.parse(e.target.result);
+        if (!Array.isArray(imported)) throw new Error('Invalid format');
+        if (!confirm(`Import ${imported.length} recipes into your collection (${records.length} existing)? Duplicates will be skipped.`)) return;
+        const existingKeys = new Set(records.map(r => r.id + '|' + r.title));
+        const newOnes = imported.filter(r => !existingKeys.has(r.id + '|' + r.title));
+        records = [...records, ...newOnes];
+        save();
+        render();
+        alert(`Done. Added ${newOnes.length} new recipe(s). ${imported.length - newOnes.length} duplicate(s) skipped.`);
+      } catch(err) {
+        alert('Could not read file. Make sure it is a valid recipe book JSON export.');
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  }
+
+  // ── Add / Edit ─────────────────────────────────────────────────────────────
+  function openAdd() {
+    editIndex = null;
+    document.getElementById('editModalTitle').textContent = 'Add New Recipe';
+    document.getElementById('deleteBtn').style.display = 'none';
+    ['id','title','cuisine','link','desc'].forEach(f => document.getElementById('f_'+f).value = '');
+    document.getElementById('f_date').value       = new Date().toISOString().slice(0,10);
+    document.getElementById('f_difficulty').value = '';
+    document.getElementById('f_prep').value       = '';
+    document.getElementById('f_cook').value       = '';
+    document.getElementById('f_servings').value   = '';
+    document.getElementById('editOverlay').classList.add('active');
+    document.getElementById('f_title').focus();
+  }
+
+  function openEdit(idx) {
+    editIndex = idx;
+    const r = records[idx];
+    document.getElementById('editModalTitle').textContent = 'Edit Recipe';
+    document.getElementById('deleteBtn').style.display    = 'inline-block';
+    document.getElementById('f_id').value         = r.id         || '';
+    document.getElementById('f_date').value       = r.date       || '';
+    document.getElementById('f_title').value      = r.title      || '';
+    document.getElementById('f_cuisine').value    = r.cuisine    || '';
+    document.getElementById('f_difficulty').value = r.difficulty || '';
+    document.getElementById('f_prep').value       = r.prep       || '';
+    document.getElementById('f_cook').value       = r.cook       || '';
+    document.getElementById('f_servings').value   = r.servings   || '';
+    document.getElementById('f_link').value       = r.link       || '';
+    document.getElementById('f_desc').value       = r.desc       || '';
+    document.getElementById('editOverlay').classList.add('active');
+  }
+
+  function closeEdit() {
+    document.getElementById('editOverlay').classList.remove('active');
+  }
+
+  function saveRecord() {
+    const r = {
+      id:         document.getElementById('f_id').value.trim(),
+      date:       document.getElementById('f_date').value,
+      title:      document.getElementById('f_title').value.trim(),
+      cuisine:    document.getElementById('f_cuisine').value.trim(),
+      difficulty: document.getElementById('f_difficulty').value,
+      prep:       document.getElementById('f_prep').value.trim(),
+      cook:       document.getElementById('f_cook').value.trim(),
+      servings:   document.getElementById('f_servings').value.trim(),
+      link:       document.getElementById('f_link').value.trim(),
+      desc:       document.getElementById('f_desc').value,
+    };
+    if (editIndex === null) {
+      records.push(r);
+    } else {
+      records[editIndex] = r;
+    }
+    save();
+    closeEdit();
+    render();
+  }
+
+  function deleteRecord() {
+    if (editIndex === null) return;
+    if (!confirm('Remove this recipe from the index?')) return;
+    records.splice(editIndex, 1);
+    save();
+    closeEdit();
+    render();
+  }
+
+  function quickDelete(idx) {
+    if (!confirm('Remove this recipe from the index?')) return;
+    records.splice(idx, 1);
+    save();
+    render();
+  }
+
+  // ── Detail view ────────────────────────────────────────────────────────────
+  function openDetail(idx) {
+    detailIndex = idx;
+    const r = records[idx];
+    document.getElementById('d_id').textContent       = '#' + (r.id||'—');
+    document.getElementById('d_title').textContent    = r.title || '(Untitled)';
+    document.getElementById('d_date').textContent     = r.date  || '—';
+    document.getElementById('d_cuisine').textContent  = r.cuisine || '—';
+    document.getElementById('d_time').textContent     = formatTime(totalTime(r));
+    document.getElementById('d_servings').textContent = r.servings ? r.servings + ' servings' : '—';
+    document.getElementById('d_difficulty').innerHTML = diffBadge(r.difficulty);
+    document.getElementById('d_desc').textContent     = r.desc || '—';
+
+    const btn = document.getElementById('d_openBtn');
+    if (r.link) {
+      btn.style.display = '';
+    } else {
+      btn.style.display = 'none';
+    }
+
+    document.getElementById('detailOverlay').classList.add('active');
+  }
+
+  function closeDetail() {
+    document.getElementById('detailOverlay').classList.remove('active');
+  }
+
+  function editFromDetail() {
+    closeDetail();
+    openEdit(detailIndex);
+  }
+
+  function openRecipeFile() {
+    const r = records[detailIndex];
+    if (r && r.link) window.open(r.link, '_blank', 'noopener');
+  }
+
+  // ── Keyboard / backdrop ────────────────────────────────────────────────────
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeEdit(); closeDetail(); }
+  });
+  document.getElementById('editOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeEdit();
+  });
+  document.getElementById('detailOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeDetail();
+  });
+  document.getElementById('searchInput').addEventListener('input', render);
+  document.getElementById('cuisineFilter').addEventListener('change', render);
+  document.getElementById('diffFilter').addEventListener('change', render);
+
+  // ── Init ───────────────────────────────────────────────────────────────────
+  render();
+</script>
+</body>
+</html>
