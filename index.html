@@ -157,7 +157,7 @@
 
     /* ── Table ── */
     .table-wrap { flex: 1; overflow-x: auto; padding: 0 28px 40px; }
-    table { width: 100%; border-collapse: collapse; min-width: 900px; table-layout: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 900px; table-layout: fixed; }
     thead tr { background: var(--surface); border-bottom: 2px solid var(--border2); }
     thead th {
       font-family: 'Syne', sans-serif;
@@ -178,17 +178,17 @@
     thead th.no-sort { cursor: default; }
     thead th.no-sort:hover { color: var(--text-dim); }
 
-    .col-id      { width: 40px;   min-width: 40px;  max-width: 40px; }
-    .col-date    { width: 88px;   min-width: 88px;  max-width: 95px; }
-    .col-title   { width: 175px;  min-width: 140px; }
-    .col-chef    { width: 90px;   min-width: 80px;  max-width: 110px; }
-    .col-cuisine { width: 130px;  min-width: 100px; max-width: 160px; }
-    .col-diff    { width: 100px;  min-width: 100px; max-width: 105px; }
-    .col-time    { width: 80px;   min-width: 75px;  max-width: 85px; }
-    .col-serv    { width: 75px;   min-width: 70px;  max-width: 80px; }
-    .col-desc    { min-width: 160px; }
-    .col-open    { width: 50px;   min-width: 50px;  max-width: 50px; text-align: center !important; }
-    .col-act     { width: 40px;   min-width: 40px;  max-width: 40px; text-align: center !important; }
+    .col-id      { width: 3%; }
+    .col-date    { width: 7%; }
+    .col-title   { width: 15%; }
+    .col-chef    { width: 7%; }
+    .col-cuisine { width: 12%; }
+    .col-diff    { width: 8%; }
+    .col-time    { width: 6%; }
+    .col-serv    { width: 5%; }
+    .col-desc    { width: auto; }
+    .col-open    { width: 4%; text-align: center !important; }
+    .col-act     { width: 3%; text-align: center !important; }
 
     tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; cursor: pointer; }
     tbody tr:hover { background: var(--surface2); }
@@ -724,6 +724,14 @@
     const h=Math.floor(m/60),rm=m%60;
     return rm?`${h}h ${rm}m`:`${h}h`;
   }
+  function formatDate(d) {
+    if (!d) return '—';
+    // handles both "2026-03-28" and ISO strings
+    const parts = d.slice(0,10).split('-');
+    if (parts.length < 3) return d;
+    return parts[1] + '/' + parts[2] + '/' + parts[0].slice(2);
+  }
+
   function diffBadge(d) {
     if (!d) return `<span style="color:var(--text-dim2)">—</span>`;
     const cls = d==='Easy'?'diff-easy':d==='Medium'?'diff-medium':'diff-hard';
@@ -942,7 +950,7 @@ async function loadData() {
           : `<span style="color:var(--text-dim2)">—</span>`;
         return `<tr ondblclick="openDetail(${ri})">
           <td class="col-id">${esc(r.id||'')}</td>
-          <td class="col-date">${esc(r.date||'')}</td>
+          <td class="col-date">${formatDate(r.date)}</td>
           <td class="col-title">${esc(r.title||'')}</td>
           <td class="col-chef">${esc(r.chef||'—')}</td>
           <td class="col-cuisine">${cuisineBadge}</td>
